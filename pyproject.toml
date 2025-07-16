@@ -1,11 +1,15 @@
 [project]
-name = "tast-new"
+name = "wheel-specification-api"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.9"
+authors = [
+    { name = "Nitin soni", email = "nitinsoni815@gmail.com" }
+]
 dependencies = [
     "coloredlogs>=15.0.1",
     "fastapi[all]>=0.116.1",
     "psycopg2>=2.9.10",
+    "sqlalchemy>=2.0.41",
 ]
