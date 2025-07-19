@@ -8,7 +8,7 @@ This project is a backend API built with **FastAPI**. It uses **PostgreSQL** for
 
 - ⚙️ FastAPI
 - 🛢️ PostgreSQL
-- 🐍 Python 3.9
+- 🐍 Python 3.12
 - ⚡ `uv` for dependency and virtual environment management
 - 🔄 SQLAlchemy ORM
 
@@ -16,7 +16,7 @@ This project is a backend API built with **FastAPI**. It uses **PostgreSQL** for
 
 ## 🔧 Prerequisites
 
-- Python 3.9
+- Python 3.12
 - PostgreSQL database
 - [`uv`](https://github.com/astral-sh/uv) installed
 
@@ -74,6 +74,16 @@ uv run uvicorn src.main:app --reload
 
 Swagger UI: http://localhost:8000/docs
 
+### 🐳 Docker Usage
+
+Build Docker Image
+```
+docker build -t wheel-specifiacation-api .
+```
+### 🚀 Run Docker Container
+```
+docker run -d --env-file .env -p 8000:8000 wheel-specifiacation-api
+```
 
 👤 Author
 Built with ❤️ by Nitin soni

@@ -9,6 +9,7 @@ class WheelSpecificationData(BaseModel):
     submittedBy: str
     submittedDate: date
 
+
 class CreateWheelSpecificationResponse(CreatedResponse):
     message: Literal["Wheel specification submitted successfully."]
     data: WheelSpecificationData
@@ -22,18 +23,32 @@ class CreateWheelSpecificationResponseBackendError(BaseModel):
         ],
     ]
 
+
 class CreateWheelSpecificationErrorResponse(BackendErrorResponse):
     message: Union[
         Literal["INTERNAL_SERVER_ERROR"],
-        Literal["Failed to submit Wheel specification."]
+        Literal["Failed to submit Wheel specification."],
     ]
     error: CreateWheelSpecificationResponseBackendError
+
+
+class CreateWheelSpecificationDuplicateError(BaseModel):
+    code: Literal["DUPLICATE_FORM_NUMBER"]
+    details: str
+
+
+class CreateWheelSpecificationConflictResponse(BackendErrorResponse):
+    message: Literal["Form number already exists."]
+    error: CreateWheelSpecificationDuplicateError
+
 
 CREATE_WHEEL_SPECIFICATION_RESPONSE = {
     201: {"model": CreateWheelSpecificationResponse},
     400: {"model": BadRequestErrorResponse},
+    409: {"model": CreateWheelSpecificationConflictResponse},
     500: {"model": CreateWheelSpecificationErrorResponse},
 }
+
 
 class WheelSpecificationListItem(BaseModel):
     formNumber: str
@@ -41,9 +56,11 @@ class WheelSpecificationListItem(BaseModel):
     submittedDate: date
     fields: Dict[str, str]
 
+
 class GetWheelSpecificationListResponse(SuccessResponse):
     message: Literal["Filtered wheel specification forms fetched successfully."]
     data: List[WheelSpecificationListItem]
+
 
 class GetWheelSpecificationListBackendError(BaseModel):
     code: Literal["INTERNAL_SERVER_ERROR"]
@@ -51,17 +68,23 @@ class GetWheelSpecificationListBackendError(BaseModel):
         "Failed to fetch wheel specification list. Please contact developers if the issue persists."
     ]
 
+
 class GetWheelSpecificationListErrorResponse(BackendErrorResponse):
-    message: Literal["INTERNAL_SERVER_ERROR", "Failed to fetch wheel specification list."]
+    message: Literal[
+        "INTERNAL_SERVER_ERROR", "Failed to fetch wheel specification list."
+    ]
     error: GetWheelSpecificationListBackendError
+
 
 class GetWheelSpecificationNotFoundError(BaseModel):
     code: Literal["NOT_FOUND"]
     details: Literal["No wheel specifications found for the given filters."]
 
+
 class GetWheelSpecificationNotFoundResponse(BackendErrorResponse):
     message: Literal["NOT_FOUND"]
     error: GetWheelSpecificationNotFoundError
+
 
 GET_WHEEL_SPECIFICATION_LIST_RESPONSE = {
     200: {"model": GetWheelSpecificationListResponse},
